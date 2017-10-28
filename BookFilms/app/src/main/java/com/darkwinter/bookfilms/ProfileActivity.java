@@ -1,7 +1,9 @@
 package com.darkwinter.bookfilms;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,10 +24,18 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText txtPassword;
     private EditText txtZipCode;
     private EditText txtPhone;
-    private Button btnRegister;
+    private Button btnUpdate;
     private FirebaseAuth mAuth;
     private DatabaseReference mUserReference;
     private FirebaseDatabase database;
+    private String name;
+    private String email;
+    private String DOB;
+    private String phone;
+    private String zipcode;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,17 +53,18 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Toast.makeText(ProfileActivity.this, dataSnapshot.toString(), Toast.LENGTH_LONG).show();
-                    String name = dataSnapshot.child(ID).child("name").getValue().toString();
-                    String email = dataSnapshot.child(ID).child("email").getValue().toString();
-                    String DOB = dataSnapshot.child(ID).child("DOB").getValue().toString();
-                    String phone = dataSnapshot.child(ID).child("Phone number").getValue().toString();
-                    String zipcode = dataSnapshot.child(ID).child("CitizenID").getValue().toString();
+                    name = dataSnapshot.child(ID).child("name").getValue().toString();
+                    email = dataSnapshot.child(ID).child("email").getValue().toString();
+                    DOB = dataSnapshot.child(ID).child("DOB").getValue().toString();
+                    phone = dataSnapshot.child(ID).child("Phone number").getValue().toString();
+                    zipcode = dataSnapshot.child(ID).child("CitizenID").getValue().toString();
 
                     txtName.setText(name);
                     txtDOB.setText(DOB);
                     txtEmail.setText(email);
                     txtPhone.setText(phone);
                     txtZipCode.setText(zipcode);
+
                 }
 
                 @Override
@@ -63,6 +74,22 @@ public class ProfileActivity extends AppCompatActivity {
             });
 
         }
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent updateIntent = new Intent(ProfileActivity.this , UpdateProfileActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("name", name);
+                bundle.putString("email", email);
+                bundle.putString("DOB", DOB);
+                bundle.putString("phone", phone);
+                bundle.putString("zipcode", zipcode);
+                updateIntent.putExtra("Bundle", bundle);
+                startActivity(updateIntent);
+
+            }
+        });
+
     }
 
     private void addControls() {
@@ -71,7 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
         txtDOB = findViewById(R.id.txtBirth);
         txtPhone = findViewById(R.id.txtPhone);
         txtZipCode = findViewById(R.id.txtZipcode);
-        btnRegister = findViewById(R.id.btnRegister);
+        btnUpdate = findViewById(R.id.btnUpdate);
 
     }
 }

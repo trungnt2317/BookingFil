@@ -19,7 +19,15 @@
         <activity android:name=".StartActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".MovieInfoActivity" />
-        <activity android:name=".BookingTicketActivity"></activity>
+        <activity android:name=".BookingTicketActivity" />
+
+        <service android:name=".MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".UpdateProfileActivity"></activity>
     </application>
 
 </manifest>
